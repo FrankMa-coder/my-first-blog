@@ -30,3 +30,6 @@ $RECYCLE.BIN/
 .vscode/
 .history/
 *.code-workspace
+
+# 用户上传的媒体文件（本地开发/线上都不应提交）
+media/
