@@ -1,189 +1,140 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
+    <title>Frank Ma's blog</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Frank Ma's blog</title>
 
-    <style>
-      :root {
-        --bg: #f6f7fb;
-        --card: #ffffff;
-        --text: #1f2937;
-        --muted: #6b7280;
-        --border: #e5e7eb;
-        --brand: #7c3aed;
-        --brand-weak: rgba(124, 58, 237, 0.12);
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        font-family:
-          system-ui,
-          -apple-system,
-          Segoe UI,
-          Roboto,
-          Helvetica,
-          Arial,
-          "Apple Color Emoji",
-          "Segoe UI Emoji";
-        background:
-          radial-gradient(
-            900px 500px at 10% 0%,
-            var(--brand-weak),
-            transparent 55%
-          ),
-          radial-gradient(
-            900px 500px at 90% 10%,
-            rgba(59, 130, 246, 0.1),
-            transparent 55%
-          ),
-          var(--bg);
-        color: var(--text);
-        line-height: 1.65;
-      }
-
-      /* 顶部栏 */
-      header {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--border);
-      }
-
-      header h1 {
-        margin: 0;
-        padding: 18px 16px;
-        max-width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        font-size: 22px;
-        letter-spacing: 0.2px;
-      }
-
-      header h1 a {
-        color: var(--text);
-        text-decoration: none;
-      }
-
-      header h1 a:hover {
-        color: var(--brand);
-      }
-
-      /* 主体容器：不新增 wrapper，也能居中（用选择器定位 body 的直接子元素） */
-      body > article {
-        max-width: 960px;
-        margin: 20px auto;
-        padding: 18px 18px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        box-shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
-      }
-
-      /* 第一篇 article 与 header 拉开点距离 */
-      body > article:first-of-type {
-        margin-top: 26px;
-      }
-
-      time {
-        display: inline-block;
-        font-size: 13px;
-        color: var(--muted);
-        background: #f3f4f6;
-        border: 1px solid var(--border);
-        padding: 6px 10px;
-        border-radius: 999px;
-      }
-
-      h2 {
-        margin: 12px 0 8px;
-        font-size: 20px;
-        line-height: 1.25;
-      }
-
-      h2 a {
-        color: var(--text);
-        text-decoration: none;
-        border-bottom: 2px solid transparent;
-      }
-
-      h2 a:hover {
-        color: var(--brand);
-        border-bottom-color: var(--brand);
-      }
-
-      p {
-        margin: 0;
-        color: #374151;
-      }
-
-      /* 让卡片之间更舒适（移动端） */
-      @media (max-width: 520px) {
-        header h1 {
-          font-size: 20px;
-        }
-        body > article {
-          margin: 14px 12px;
-          padding: 16px;
-        }
-        h2 {
-          font-size: 18px;
-        }
-      }
-
-      .heart {
-        display: inline-block; /* 让 transform 生效 */
-        margin-left: 4px;
-        transform-origin: center;
-        animation: heartBeat 1.1s ease-in-out infinite;
-        will-change: transform, filter, opacity;
-      }
-
-      @keyframes heartBeat {
-        0%,
-        100% {
-          transform: scale(1);
-          opacity: 0.85;
-          filter: drop-shadow(0 0 0 rgba(124, 58, 237, 0));
-        }
-        25% {
-          transform: scale(1.18);
-          opacity: 1;
-          filter: drop-shadow(0 6px 10px rgba(124, 58, 237, 0.35));
-        }
-        50% {
-          transform: scale(0.98);
-          opacity: 0.9;
-        }
-        75% {
-          transform: scale(1.12);
-          opacity: 1;
-          filter: drop-shadow(0 6px 10px rgba(124, 58, 237, 0.28));
-        }
-      }
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}" />
   </head>
 
   <body>
-    <header>
-      <h1>
-        <a href="/">Frank Ma's Blog <span class="heart">💗</span></a>
-      </h1>
+    <!-- 顶部导航栏（只保留品牌） -->
+    <header class="site-header sticky-top">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand fw-semibold" href="/">
+            Frank Ma's Blog <span class="heart">💗</span>
+          </a>
+        </div>
+      </nav>
     </header>
 
-    {% for post in posts %}
-    <article>
-      <time>published: {{ post.publish_date}}</time>
-      <h2><a href="">{{ post.title}}</a></h2>
-      <p>{{ post.text|linebreaksbr}}</p>
-    </article>
-    {% endfor %}
+    <main class="container py-4 py-md-5">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-9 col-xl-8">
+          {% for post in posts %}
+          <article class="card post-card border-0 shadow-sm mb-4">
+            <div class="card-body p-4 p-md-5">
+              <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <span class="badge rounded-pill text-bg-light border">
+                  published · {{ post.publish_date|date:"Y-m-d" }}
+                </span>
+              </div>
+
+              <h2 class="h4 fw-bold mb-3">
+                <a class="post-title-link" href="">{{ post.title }}</a>
+              </h2>
+
+              <!-- 正文：默认折叠 4 行，JS 会检测是否需要显示按钮 -->
+              <div
+                id="post-body-{{ forloop.counter }}"
+                class="post-body is-collapsed"
+                data-lines="4"
+              >
+                {{ post.text|linebreaks }}
+              </div>
+
+              <!-- 图标按钮：默认隐藏，只有超过 4 行才显示 -->
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-primary post-toggle mt-3"
+                data-target="post-body-{{ forloop.counter }}"
+                aria-expanded="false"
+                aria-label="展开全文"
+                hidden
+              >
+                <!-- 默认：向下箭头（展开） -->
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M6 9l6 6 6-6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </article>
+          {% endfor %}
+
+          <footer class="text-center text-secondary small py-4">
+            © {% now "Y" %} Frank Ma · Built with Django
+          </footer>
+        </div>
+      </div>
+    </main>
+
+    <!-- 只有内容超过 4 行才显示按钮；按钮为图标；展开/收起切换图标 -->
+    <script>
+      const ICON_DOWN = `
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+      const ICON_UP = `
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+
+      function setupOne(article) {
+        const body = article.querySelector(".post-body");
+        const btn = article.querySelector(".post-toggle");
+        if (!body || !btn) return;
+
+        const lines = parseInt(body.dataset.lines || "4", 10);
+
+        // 设置折叠行数（CSS 变量）
+        body.style.setProperty("--clamp-lines", lines);
+
+        // 先确保折叠态用于测量
+        body.classList.add("is-collapsed");
+
+        // 判断是否真的溢出（被截断）
+        const isOverflowing = body.scrollHeight > body.clientHeight + 1;
+
+        if (!isOverflowing) {
+          // 短文章：直接全文展示，不需要按钮
+          body.classList.remove("is-collapsed");
+          btn.hidden = true;
+          return;
+        }
+
+        // 长文章：显示按钮，并绑定切换逻辑
+        btn.hidden = false;
+        btn.innerHTML = ICON_DOWN;
+
+        btn.addEventListener("click", () => {
+          const collapsed = body.classList.toggle("is-collapsed");
+          btn.setAttribute("aria-expanded", String(!collapsed));
+          btn.setAttribute("aria-label", collapsed ? "展开全文" : "收起");
+          btn.innerHTML = collapsed ? ICON_DOWN : ICON_UP;
+        });
+      }
+
+      function init() {
+        document.querySelectorAll("article").forEach(setupOne);
+      }
+
+      // 等页面布局稳定后再测量（更准）
+      window.addEventListener("load", init);
+    </script>
   </body>
 </html>
