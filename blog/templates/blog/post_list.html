@@ -1,132 +1,157 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Frank Ma's  blog</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Frank Ma's blog</title>
 
-        <style>
-            :root {
-                --bg: #f6f7fb;
-                --card: #ffffff;
-                --text: #1f2937;
-                --muted: #6b7280;
-                --border: #e5e7eb;
-                --brand: #7c3aed;
-                --brand-weak: rgba(124, 58, 237, 0.12);
-            }
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --brand: #7c3aed;
+        --brand-weak: rgba(124, 58, 237, 0.12);
+      }
 
-            * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
 
-            body {
-                margin: 0;
-                font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-                background: radial-gradient(900px 500px at 10% 0%, var(--brand-weak), transparent 55%),
-                            radial-gradient(900px 500px at 90% 10%, rgba(59, 130, 246, 0.10), transparent 55%),
-                            var(--bg);
-                color: var(--text);
-                line-height: 1.65;
-            }
+      body {
+        margin: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          "Apple Color Emoji",
+          "Segoe UI Emoji";
+        background:
+          radial-gradient(
+            900px 500px at 10% 0%,
+            var(--brand-weak),
+            transparent 55%
+          ),
+          radial-gradient(
+            900px 500px at 90% 10%,
+            rgba(59, 130, 246, 0.1),
+            transparent 55%
+          ),
+          var(--bg);
+        color: var(--text);
+        line-height: 1.65;
+      }
 
-            /* 顶部栏 */
-            header {
-                position: sticky;
-                top: 0;
-                z-index: 10;
-                background: rgba(255, 255, 255, 0.75);
-                backdrop-filter: blur(10px);
-                border-bottom: 1px solid var(--border);
-            }
+      /* 顶部栏 */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+      }
 
-            header h1 {
-                margin: 0;
-                padding: 18px 16px;
-                max-width: 960px;
-                margin-left: auto;
-                margin-right: auto;
-                font-size: 22px;
-                letter-spacing: 0.2px;
-            }
+      header h1 {
+        margin: 0;
+        padding: 18px 16px;
+        max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 22px;
+        letter-spacing: 0.2px;
+      }
 
-            header h1 a {
-                color: var(--text);
-                text-decoration: none;
-            }
+      header h1 a {
+        color: var(--text);
+        text-decoration: none;
+      }
 
-            header h1 a:hover {
-                color: var(--brand);
-            }
+      header h1 a:hover {
+        color: var(--brand);
+      }
 
-            /* 主体容器：不新增 wrapper，也能居中（用选择器定位 body 的直接子元素） */
-            body > article {
-                max-width: 960px;
-                margin: 20px auto;
-                padding: 18px 18px;
-                background: var(--card);
-                border: 1px solid var(--border);
-                border-radius: 14px;
-                box-shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
-            }
+      /* 主体容器：不新增 wrapper，也能居中（用选择器定位 body 的直接子元素） */
+      body > article {
+        max-width: 960px;
+        margin: 20px auto;
+        padding: 18px 18px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
+      }
 
-            /* 第一篇 article 与 header 拉开点距离 */
-            body > article:first-of-type { margin-top: 26px; }
+      /* 第一篇 article 与 header 拉开点距离 */
+      body > article:first-of-type {
+        margin-top: 26px;
+      }
 
-            time {
-                display: inline-block;
-                font-size: 13px;
-                color: var(--muted);
-                background: #f3f4f6;
-                border: 1px solid var(--border);
-                padding: 6px 10px;
-                border-radius: 999px;
-            }
+      time {
+        display: inline-block;
+        font-size: 13px;
+        color: var(--muted);
+        background: #f3f4f6;
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        border-radius: 999px;
+      }
 
-            h2 {
-                margin: 12px 0 8px;
-                font-size: 20px;
-                line-height: 1.25;
-            }
+      h2 {
+        margin: 12px 0 8px;
+        font-size: 20px;
+        line-height: 1.25;
+      }
 
-            h2 a {
-                color: var(--text);
-                text-decoration: none;
-                border-bottom: 2px solid transparent;
-            }
+      h2 a {
+        color: var(--text);
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+      }
 
-            h2 a:hover {
-                color: var(--brand);
-                border-bottom-color: var(--brand);
-            }
+      h2 a:hover {
+        color: var(--brand);
+        border-bottom-color: var(--brand);
+      }
 
-            p {
-                margin: 0;
-                color: #374151;
-            }
+      p {
+        margin: 0;
+        color: #374151;
+      }
 
-            /* 让卡片之间更舒适（移动端） */
-            @media (max-width: 520px) {
-                header h1 { font-size: 20px; }
-                body > article { margin: 14px 12px; padding: 16px; }
-                h2 { font-size: 18px; }
-            }
-        </style>
-    </head>
+      /* 让卡片之间更舒适（移动端） */
+      @media (max-width: 520px) {
+        header h1 {
+          font-size: 20px;
+        }
+        body > article {
+          margin: 14px 12px;
+          padding: 16px;
+        }
+        h2 {
+          font-size: 18px;
+        }
+      }
+    </style>
+  </head>
 
-    <body>
-        <header>
-            <h1><a href="/">Frank Ma's Blog</a></h1>
-        </header>
+  <body>
+    <header>
+      <h1><a href="/">Frank Ma's Blog</a></h1>
+    </header>
 
-        <article>
-            <time>published: 02.02.26, 21:37</time>
-            <h2><a href="">我会是您最忠诚的用户</a></h2>
-            <p>今天是非常关键一天，因为张梦雨要偷偷考100000000分💪</p>
-        </article>
-
-        <article>
-            <time>published: 02.02.2026, 22:26</time>
-            <h2><a href="">Love You</a></h2>
-            <p>爱你宝贝！🐰💗🦊</p>
-        </article>
-    </body>
+    {% for post in posts %}
+    <article>
+      <time>published: {{ post.publish_date}}</time>
+      <h2><a href="">{{ post.title}}</a></h2>
+      <p>{{ post.text|linebreaksbr}}</p>
+    </article>
+    {% endfor %}
+    
+  </body>
 </html>
