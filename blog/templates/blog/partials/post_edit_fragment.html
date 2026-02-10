@@ -1,0 +1,43 @@
+{# blog/templates/blog/partials/post_edit_fragment.html #}
+{# ✅ 编辑态片段：原地显示表单 + Save/Exit/Delete（布局优化版） #}
+<div class="position-relative">
+    {# ✅ Exit：右上角圆形按钮（不提交表单） #}
+    <button type="button"
+            class="btn btn-ghost btn-icon position-absolute top-0 end-0"
+            aria-label="Exit editing"
+            hx-get="{% url 'post_cancel_fragment' pk=post.pk %}"
+            hx-target="#post-box"
+            hx-swap="innerHTML swap:120ms settle:220ms">✕</button>
+    <h2 class="fw-bold mb-4 shiny-title">✏️ Edit</h2>
+    <form method="post"
+          class="post-form"
+          hx-post="{% url 'post_edit_fragment' pk=post.pk %}"
+          hx-target="#post-box"
+          hx-swap="innerHTML swap:120ms settle:220ms">
+        {% csrf_token %}
+        {# ✅ Title 字段 #}
+        <div class="mb-3">
+            <label class="form-label fw-semibold" for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+            {{ form.title }}
+            {# ✅ 字段错误提示（如果校验失败） #}
+            {% if form.title.errors %}<div class="invalid-feedback d-block">{{ form.title.errors|striptags }}</div>{% endif %}
+        </div>
+        {# ✅ Text 字段 #}
+        <div class="mb-3">
+            <label class="form-label fw-semibold" for="{{ form.text.id_for_label }}">{{ form.text.label }}</label>
+            {{ form.text }}
+            {% if form.text.errors %}<div class="invalid-feedback d-block">{{ form.text.errors|striptags }}</div>{% endif %}
+        </div>
+        {# ✅ 表单级错误（不针对单个字段的错误） #}
+        {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+        {# ✅ 底部按钮布局：Delete 左下，Save 右下 #}
+        <div class="d-flex align-items-center justify-content-between mt-4">
+            <button type="button"
+                    class="btn btn-sm btn-danger-soft"
+                    hx-post="{% url 'post_delete' pk=post.pk %}"
+                    hx-confirm="Are you sure you want to delete this post?"
+                    hx-swap="none">Delete</button>
+            <button type="submit" class="btn btn-sm btn-brand">Save</button>
+        </div>
+    </form>
+</div>

@@ -1,140 +1,34 @@
+{% extends "blog/base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>Frank Ma's blog</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="{% static 'css/blog.css' %}" />
-  </head>
-
-  <body>
-    <!-- 顶部导航栏（只保留品牌） -->
-    <header class="site-header sticky-top">
-      <nav class="navbar navbar-expand-lg">
-        <div class="container">
-          <a class="navbar-brand fw-semibold" href="/">
-            Frank Ma's Blog <span class="heart">💗</span>
-          </a>
+{% block content %}
+  {% for post in posts %}
+    <article class="card post-card border-0 shadow-sm mb-4">
+      <div class="card-body p-4 p-md-5">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <span class="badge rounded-pill text-bg-light border">published · {{ post.publish_date|date:"Y-m-d" }}</span>
         </div>
-      </nav>
-    </header>
-
-    <main class="container py-4 py-md-5">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-9 col-xl-8">
-          {% for post in posts %}
-          <article class="card post-card border-0 shadow-sm mb-4">
-            <div class="card-body p-4 p-md-5">
-              <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-                <span class="badge rounded-pill text-bg-light border">
-                  published · {{ post.publish_date|date:"Y-m-d" }}
-                </span>
-              </div>
-
-              <h2 class="h4 fw-bold mb-3">
-                <a class="post-title-link" href="">{{ post.title }}</a>
-              </h2>
-
-              <!-- 正文：默认折叠 4 行，JS 会检测是否需要显示按钮 -->
-              <div
-                id="post-body-{{ forloop.counter }}"
-                class="post-body is-collapsed"
-                data-lines="4"
-              >
-                {{ post.text|linebreaks }}
-              </div>
-
-              <!-- 图标按钮：默认隐藏，只有超过 4 行才显示 -->
-              <button
-                type="button"
+        <h2 class="h4 fw-bold mb-3">
+          <!-- 帖子标题链接，点击跳转到详情页 -->
+          <a class="post-title-link" href="{% url "post_detail" pk=post.pk %}">{{ post.title }}</a>
+        </h2>
+        <!-- 正文：默认折叠 4 行，JS 会检测是否需要显示按钮 -->
+        <div id="post-body-{{ forloop.counter }}"
+             class="post-body is-collapsed"
+             data-lines="4">{{ post.text|linebreaks }}</div>
+        <!-- 图标按钮：默认隐藏，只有超过 4 行才显示 -->
+        <button type="button"
                 class="btn btn-sm btn-outline-primary post-toggle mt-3"
                 data-target="post-body-{{ forloop.counter }}"
                 aria-expanded="false"
                 aria-label="展开全文"
-                hidden
-              >
-                <!-- 默认：向下箭头（展开） -->
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M6 9l6 6 6-6"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
-          </article>
-          {% endfor %}
-
-          <footer class="text-center text-secondary small py-4">
-            © {% now "Y" %} Frank Ma · Built with Django
-          </footer>
-        </div>
+                hidden>
+          <!-- 默认：向下箭头（展开） -->
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
       </div>
-    </main>
-
-    <!-- 只有内容超过 4 行才显示按钮；按钮为图标；展开/收起切换图标 -->
-    <script>
-      const ICON_DOWN = `
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>`;
-      const ICON_UP = `
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>`;
-
-      function setupOne(article) {
-        const body = article.querySelector(".post-body");
-        const btn = article.querySelector(".post-toggle");
-        if (!body || !btn) return;
-
-        const lines = parseInt(body.dataset.lines || "4", 10);
-
-        // 设置折叠行数（CSS 变量）
-        body.style.setProperty("--clamp-lines", lines);
-
-        // 先确保折叠态用于测量
-        body.classList.add("is-collapsed");
-
-        // 判断是否真的溢出（被截断）
-        const isOverflowing = body.scrollHeight > body.clientHeight + 1;
-
-        if (!isOverflowing) {
-          // 短文章：直接全文展示，不需要按钮
-          body.classList.remove("is-collapsed");
-          btn.hidden = true;
-          return;
-        }
-
-        // 长文章：显示按钮，并绑定切换逻辑
-        btn.hidden = false;
-        btn.innerHTML = ICON_DOWN;
-
-        btn.addEventListener("click", () => {
-          const collapsed = body.classList.toggle("is-collapsed");
-          btn.setAttribute("aria-expanded", String(!collapsed));
-          btn.setAttribute("aria-label", collapsed ? "展开全文" : "收起");
-          btn.innerHTML = collapsed ? ICON_DOWN : ICON_UP;
-        });
-      }
-
-      function init() {
-        document.querySelectorAll("article").forEach(setupOne);
-      }
-
-      // 等页面布局稳定后再测量（更准）
-      window.addEventListener("load", init);
-    </script>
-  </body>
-</html>
+    </article>
+  {% endfor %}
+  <script src="{% static 'blog/js/index/index.js' %}"></script>
+{% endblock content %}

@@ -1,0 +1,23 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        {% if post.publish_date %}
+            <span class="badge rounded-pill text-bg-light border">Published · {{ post.publish_date|date:"Y-m-d" }}</span>
+        {% else %}
+            <span class="badge rounded-pill text-bg-warning text-dark">Draft</span>
+        {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+        <button type="button"
+                class="btn btn-sm btn-brand"
+                hx-get="{% url 'post_edit_fragment' pk=post.pk %}"
+                hx-target="#post-box"
+                hx-swap="innerHTML swap:120ms settle:220ms">✎ Edit Post</button>
+    {% endif %}
+</div>
+<h1 class="fw-bold mb-4 display-6">{{ post.title }}</h1>
+<div class="post-body">{{ post.text|linebreaks }}</div>
+<hr class="my-5 opacity-10">
+<div class="text-center">
+    <a href="{% url 'post_list' %}"
+       class="btn btn-light rounded-pill px-4 text-secondary">← Back to Blog</a>
+</div>

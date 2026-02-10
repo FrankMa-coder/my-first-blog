@@ -1,0 +1,8 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <article class="card post-card border-0 shadow-sm">
+        <div class="card-body p-4 p-md-5">
+            <div id="post-box" class="swap-anim">{% include "blog/partials/post_display_fragment.html" with post=post %}</div>
+        </div>
+    </article>
+{% endblock content %}
