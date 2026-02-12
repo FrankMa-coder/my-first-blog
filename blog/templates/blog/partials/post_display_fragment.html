@@ -1,23 +1,43 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
+<div class="d-flex align-items-center mb-3">
+    <!-- 左：Back -->
+    <div class="d-flex flex-fill justify-content-start">
+        <a href="{% url 'post_list' %}"
+           class="btn btn-sm btn-light rounded-pill px-3 text-secondary">← Back</a>
+    </div>
+    <!-- 中：状态（真正居中） -->
+    <div class="d-flex flex-fill justify-content-center">
         {% if post.publish_date %}
             <span class="badge rounded-pill text-bg-light border">Published · {{ post.publish_date|date:"Y-m-d" }}</span>
         {% else %}
             <span class="badge rounded-pill text-bg-warning text-dark">Draft</span>
         {% endif %}
     </div>
-    {% if user.is_authenticated %}
-        <button type="button"
-                class="btn btn-sm btn-brand"
-                hx-get="{% url 'post_edit_fragment' pk=post.pk %}"
-                hx-target="#post-box"
-                hx-swap="innerHTML swap:120ms settle:220ms">✎ Edit Post</button>
-    {% endif %}
+    <!-- 右：Edit（可空，但仍占位保持居中） -->
+    <div class="d-flex flex-fill justify-content-end">
+        {% if user.is_authenticated %}
+            <button type="button"
+                    class="btn btn-sm btn-outline-brand rounded-pill px-3"
+                    hx-get="{% url 'post_edit_fragment' pk=post.pk %}"
+                    hx-target="#post-box"
+                    hx-swap="innerHTML swap:120ms settle:220ms">✎ Edit</button>
+        {% endif %}
+    </div>
 </div>
 <h1 class="fw-bold mb-4 display-6">{{ post.title }}</h1>
 <div class="post-body">{{ post.text|linebreaks }}</div>
-<hr class="my-5 opacity-10">
-<div class="text-center">
-    <a href="{% url 'post_list' %}"
-       class="btn btn-light rounded-pill px-4 text-secondary">← Back to Blog</a>
-</div>
+{% if user.is_authenticated and not post.publish_date %}
+    <!-- 底部：发布区（只在 Draft 显示） -->
+    <div class="border-top pt-4 mt-5">
+        <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+            <div class="text-secondary small">发布后将对外可见（你仍可继续编辑）。</div>
+            <div class="ms-sm-auto">
+                <form method="post"
+                      action="{% url 'post_publish' pk=post.pk %}"
+                      class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-brand rounded-pill px-4">Publish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}

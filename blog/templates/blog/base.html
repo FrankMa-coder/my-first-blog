@@ -23,11 +23,20 @@
           <a class="navbar-brand fw-semibold" href="{% url 'post_list' %}">
             Frank Ma's Blog <span class="heart">💗</span>
           </a>
-          <a class="btn btn-sm btn-brand d-inline-flex align-items-center gap-1"
-             href="{% url 'post_new' %}">
-            {% include "./icons/file-earmark-plus.svg" %}
-            <span class="d-none d-md-inline">New Post</span>
-          </a>
+          <div class="d-flex align-items-center gap-2 ms-auto">
+            {% if user.is_authenticated %}
+              <a class="btn btn-sm btn-brand d-inline-flex align-items-center gap-2"
+                 href="{% url 'post_draft_list' %}">
+                {% include "./icons/file-earmark.svg" %}
+                <span class="d-none d-md-inline">草 稿 箱</span>
+              </a>
+            {% endif %}
+            <a class="btn btn-sm btn-brand d-inline-flex align-items-center gap-2"
+               href="{% url 'post_new' %}">
+              {% include "./icons/file-earmark-plus.svg" %}
+              <span class="d-none d-md-inline">新  建</span>
+            </a>
+          </div>
         </div>
       </nav>
     </header>

@@ -41,7 +41,6 @@ def post_new(request):
             #    - 但先不要写入数据库（不执行 INSERT）
             #    因为我们还要补充一些表单里没有的字段，比如 author、publish_date
             post = form.save(commit=False)
-
             # 5) 给对象补上额外字段（这些字段不是用户输入的）
             post.author = request.user
             post.publish_date = timezone.now()
@@ -198,3 +197,15 @@ def post_delete(request, pk):
 
     # 4) 普通请求：用 Django redirect
     return redirect("post_list")
+
+def post_draft_list(request):
+    posts = Post.objects.filter(publish_date__isnull=True).order_by('-created_date')
+    return render(request, 'blog/post_draft_list.html', {'posts': posts})
+
+def post_publish(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    
+    if request.method=="POST":
+        post.publish()
+        print(post)
+    return redirect('post_detail', pk=pk)

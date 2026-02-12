@@ -1,0 +1,24 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="card post-card border-0 shadow-sm mb-4">
+            <div class="card-body p-4 p-md-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="post">
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                            {% if post.publish_date %}
+                                <span class="badge rounded-pill text-bg-light border">Published · {{ post.publish_date|date:"Y-m-d" }}</span>
+                            {% else %}
+                                <span class="badge rounded-pill text-bg-warning text-dark">Draft · {{ post.created_date|date:'d-m-y' }}</span>
+                            {% endif %}
+                        </div>
+                        <h1>
+                            <a href="{% url "post_detail" pk=post.pk %}">{{ post.title }}</a>
+                        </h1>
+                        <p>{{ post.text|truncatechars:200 }}</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

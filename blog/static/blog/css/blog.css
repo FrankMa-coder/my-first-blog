@@ -232,6 +232,22 @@ body {
     filter: brightness(1.06);
 }
 
+/* 主题色 outline 按钮：挖空 + 描边 */
+.btn-outline-brand {
+  color: var(--brand);
+  border: 2px solid var(--brand);
+  background: transparent;
+}
+
+.btn-outline-brand:hover,
+.btn-outline-brand:focus {
+  color: #fff;
+  background: var(--brand);
+  border-color: var(--brand);
+}
+
+
+
 /* ✅ Exit 圆形按钮 */
 .btn-icon {
     width: 40px;
