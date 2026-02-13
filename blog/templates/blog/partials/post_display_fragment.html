@@ -19,7 +19,7 @@
                     class="btn btn-sm btn-outline-brand rounded-pill px-3"
                     hx-get="{% url 'post_edit_fragment' pk=post.pk %}"
                     hx-target="#post-box"
-                    hx-swap="innerHTML swap:120ms settle:220ms">✎ Edit</button>
+                    hx-swap="innerHTML swap:120ms settle:220ms">✎ 编辑</button>
         {% endif %}
     </div>
 </div>
@@ -35,7 +35,7 @@
                       action="{% url 'post_publish' pk=post.pk %}"
                       class="d-inline">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-brand rounded-pill px-4">Publish</button>
+                    <button type="submit" class="btn btn-brand rounded-pill px-4">发布</button>
                 </form>
             </div>
         </div>
