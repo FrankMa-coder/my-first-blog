@@ -410,3 +410,67 @@ body {
         font-size: 1.05rem;
     }
 }
+/* =========================
+   ✅ Pill Split Dropdown (no clipping)
+   ========================= */
+
+.pill-split-dropdown.btn-group {
+  border-radius: 9999px !important;
+  /* ❌ 关键：不能 overflow:hidden，否则 dropdown-menu 会被裁掉 */
+  overflow: visible !important;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.14) !important;
+  display: inline-flex;
+  align-items: stretch;
+}
+
+/* 覆盖你全局 .btn 系统（你 .btn 有 !important） */
+.pill-split-dropdown.btn-group > .btn {
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* 禁止 hover 抬起导致裂开 */
+.pill-split-dropdown.btn-group > .btn:hover,
+.pill-split-dropdown.btn-group > .btn:active,
+.pill-split-dropdown.btn-group > .btn:focus {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ✅ 关键：圆角给“左右两端按钮” */
+.pill-split-dropdown .pill-main {
+  padding-left: 1.1rem;
+  padding-right: 1.1rem;
+  border-top-left-radius: 9999px !important;
+  border-bottom-left-radius: 9999px !important;
+}
+
+.pill-split-dropdown .pill-toggle {
+  width: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.35) !important;
+
+  border-top-right-radius: 9999px !important;
+  border-bottom-right-radius: 9999px !important;
+}
+
+/* 分割线 hover */
+.pill-split-dropdown .pill-toggle:hover,
+.pill-split-dropdown .pill-toggle:focus {
+  border-left-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+/* dropdown 菜单美化 */
+.pill-split-dropdown .dropdown-menu {
+  border-radius: 0.85rem;
+  padding: 0.4rem;
+  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.18);
+}
+
+.pill-split-dropdown .dropdown-item {
+  border-radius: 0.65rem;
+  padding: 0.55rem 0.8rem;
+}

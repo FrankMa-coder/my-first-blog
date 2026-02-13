@@ -2,14 +2,14 @@
     <!-- 左：Back -->
     <div class="d-flex flex-fill justify-content-start">
         <a href="{% url 'post_list' %}"
-           class="btn btn-sm btn-light rounded-pill px-3 text-secondary">← Back</a>
+           class="btn btn-sm btn-light rounded-pill px-3 text-secondary">← 返回</a>
     </div>
     <!-- 中：状态（真正居中） -->
     <div class="d-flex flex-fill justify-content-center">
         {% if post.publish_date %}
-            <span class="badge rounded-pill text-bg-light border">Published · {{ post.publish_date|date:"Y-m-d" }}</span>
+            <span class="badge rounded-pill text-bg-light border">发布于 · {{ post.publish_date|date:"Y-m-d" }}</span>
         {% else %}
-            <span class="badge rounded-pill text-bg-warning text-dark">Draft</span>
+            <span class="badge rounded-pill text-bg-warning text-dark">草稿 · {{ post.created_date|date:"Y-m-d" }}</span>
         {% endif %}
     </div>
     <!-- 右：Edit（可空，但仍占位保持居中） -->

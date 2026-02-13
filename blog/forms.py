@@ -20,7 +20,7 @@ class PostForm(forms.ModelForm):
                     # ✅ Bootstrap：输入框样式
                     "class": "form-control form-control-lg",
                     # ✅ 体验：提示文案
-                    "placeholder": "Give your post a clear title…",
+                    "placeholder": "输入标题 …",
                     # ✅ 让浏览器不要自动乱填
                     "autocomplete": "off",
                 }
@@ -28,7 +28,7 @@ class PostForm(forms.ModelForm):
             "text": forms.Textarea(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Write something thoughtful…",
+                    "placeholder": "记录美好 …",
                     "rows": 12,
                 }
             ),
@@ -36,6 +36,6 @@ class PostForm(forms.ModelForm):
 
         # ✅ 可选：如果你想自定义 label 文案
         labels = {
-            "title": "Title",
-            "text": "Text",
+            "title": "标题",
+            "text": "正文",
         }

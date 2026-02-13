@@ -7,9 +7,9 @@
                     <div class="post">
                         <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
                             {% if post.publish_date %}
-                                <span class="badge rounded-pill text-bg-light border">Published · {{ post.publish_date|date:"Y-m-d" }}</span>
+                                <span class="badge rounded-pill text-bg-light border">发布于 · {{ post.publish_date|date:"Y-m-d" }}</span>
                             {% else %}
-                                <span class="badge rounded-pill text-bg-warning text-dark">Draft · {{ post.created_date|date:'d-m-y' }}</span>
+                                <span class="badge rounded-pill text-bg-warning text-dark">草稿 · {{ post.created_date|date:'d-m-y' }}</span>
                             {% endif %}
                         </div>
                         <h1>

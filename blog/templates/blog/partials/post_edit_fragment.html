@@ -1,5 +1,5 @@
 {# blog/templates/blog/partials/post_edit_fragment.html #}
-{# ✅ 编辑态片段：原地显示表单 + Save/Exit/Delete（布局优化版） #}
+{# ✅ 编辑态片段：原地显示表单 + Delete + Save(下拉) + Exit #}
 <div class="position-relative">
     {# ✅ Exit：右上角圆形按钮（不提交表单） #}
     <button type="button"
@@ -8,7 +8,7 @@
             hx-get="{% url 'post_cancel_fragment' pk=post.pk %}"
             hx-target="#post-box"
             hx-swap="innerHTML swap:120ms settle:220ms">✕</button>
-    <h2 class="fw-bold mb-4 shiny-title">✏️ Edit</h2>
+    <h2 class="fw-bold mb-4 shiny-title">✏️ 编辑</h2>
     <form method="post"
           class="post-form"
           hx-post="{% url 'post_edit_fragment' pk=post.pk %}"
@@ -19,7 +19,6 @@
         <div class="mb-3">
             <label class="form-label fw-semibold" for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
             {{ form.title }}
-            {# ✅ 字段错误提示（如果校验失败） #}
             {% if form.title.errors %}<div class="invalid-feedback d-block">{{ form.title.errors|striptags }}</div>{% endif %}
         </div>
         {# ✅ Text 字段 #}
@@ -28,16 +27,38 @@
             {{ form.text }}
             {% if form.text.errors %}<div class="invalid-feedback d-block">{{ form.text.errors|striptags }}</div>{% endif %}
         </div>
-        {# ✅ 表单级错误（不针对单个字段的错误） #}
+        {# ✅ 表单级错误 #}
         {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
-        {# ✅ 底部按钮布局：Delete 左下，Save 右下 #}
+        {# ✅ 底部按钮：Delete 左侧，Save(下拉) 右侧 #}
         <div class="d-flex align-items-center justify-content-between mt-4">
             <button type="button"
                     class="btn btn-sm btn-danger-soft"
                     hx-post="{% url 'post_delete' pk=post.pk %}"
                     hx-confirm="Are you sure you want to delete this post?"
-                    hx-swap="none">Delete</button>
-            <button type="submit" class="btn btn-sm btn-brand">Save</button>
+                    hx-swap="none">删除</button>
+            {# ✅ 胶囊 Split Dropdown：主按钮提交 save，下拉项提交 draft #}
+            <div class="btn-group pill-split-dropdown"
+                 role="group"
+                 aria-label="Save actions">
+                {# 主按钮：保存 #}
+                <button type="submit"
+                        class="btn btn-sm btn-brand pill-main"
+                        name="action"
+                        value="save">保存</button>
+                {# 下拉切换：只展开，不提交 #}
+                <button type="button"
+                        class="btn btn-sm btn-brand dropdown-toggle dropdown-toggle-split pill-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        aria-label="更多操作">
+                    <span class="visually-hidden">更多操作</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <button type="submit" class="dropdown-item" name="action" value="draft">存入草稿箱</button>
+                    </li>
+                </ul>
+            </div>
         </div>
     </form>
 </div>

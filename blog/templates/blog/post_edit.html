@@ -1,9 +1,13 @@
 {% extends "blog/base.html" %}
 {% block content %}
-  <h2>New post</h2>
+  <h2>新 建</h2>
   <form method="post" class="post-form">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="save btn btn-secondary">Save</button>
+    <button type="submit"
+            name="action"
+            value="publish"
+            class="btn btn-sm btn-brand">发 布</button>
+    <button type="submit" name="action" value="draft" class="btn btn-sm">存入草稿箱</button>
   </form>
 {% endblock content %}

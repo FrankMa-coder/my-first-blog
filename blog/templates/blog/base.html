@@ -21,7 +21,7 @@
       <nav class="navbar navbar-expand-lg">
         <div class="container">
           <a class="navbar-brand fw-semibold" href="{% url 'post_list' %}">
-            Frank Ma's Blog <span class="heart">💗</span>
+            生 活 记 事 <span class="heart">💗</span>
           </a>
           <div class="d-flex align-items-center gap-2 ms-auto">
             {% if user.is_authenticated %}
@@ -55,84 +55,7 @@
     </footer>
     {% block extra_js %}
     {% endblock extra_js %}
-    <script>
-      (function () {
-        const BOX_ID = "post-box";
-        const DURATION_MS = 220; // 要和 CSS 的 height transition 时长一致
-
-        function isTargetBox(target) {
-          return target && target.id === BOX_ID;
-        }
-
-        // 在 swap 前：锁定旧高度（px）
-        document.addEventListener("htmx:beforeSwap", (evt) => {
-          const target = evt.detail.target;
-          if (!isTargetBox(target)) return;
-
-          const oldH = target.getBoundingClientRect().height;
-          target.dataset.oldHeight = String(oldH);
-
-          // 锁定旧高度，确保 swap 后我们有“起点高度”可动画
-          target.style.height = oldH + "px";
-          target.classList.add("is-animating");
-        });
-
-        // swap 后：测新高度（auto），回到旧高度，再动画到新高度
-        document.addEventListener("htmx:afterSwap", (evt) => {
-          const target = evt.detail.target;
-          if (!isTargetBox(target)) return;
-
-          const oldH = parseFloat(target.dataset.oldHeight || "0") || 0;
-
-          // 1) 先暂时取消过渡，把高度设为 auto，读取新内容的自然高度
-          const prevTransition = target.style.transition;
-          target.style.transition = "none";
-          target.style.height = "auto";
-
-          const newH = target.getBoundingClientRect().height;
-
-          // 2) 立刻回到旧高度（作为动画起点）
-          target.style.height = oldH + "px";
-
-          // 强制重排：让浏览器“认账”旧高度（关键）
-          target.getBoundingClientRect();
-
-          // 3) 恢复过渡，然后动画到新高度
-          target.style.transition = prevTransition;
-          requestAnimationFrame(() => {
-            target.style.height = newH + "px";
-          });
-
-          // 4) 动画结束后释放高度回 auto
-          let done = false;
-          const cleanup = () => {
-            if (done) return;
-            done = true;
-            target.style.transition = prevTransition;
-            target.style.height = "auto";
-            target.classList.remove("is-animating");
-            target.removeEventListener("transitionend", onEnd);
-          };
-
-          const onEnd = (e) => {
-            if (e.propertyName !== "height") return;
-            cleanup();
-          };
-
-          target.addEventListener("transitionend", onEnd);
-
-          // 兜底：极小高度差可能不触发 transitionend
-          setTimeout(cleanup, DURATION_MS + 80);
-        });
-
-        // 请求失败兜底：别卡在固定高度
-        document.addEventListener("htmx:responseError", (evt) => {
-          const target = evt.detail.target;
-          if (!isTargetBox(target)) return;
-          target.style.height = "auto";
-          target.classList.remove("is-animating");
-        });
-      })();
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
   </body>
 </html>
