@@ -221,22 +221,50 @@ body {
     box-shadow: 0 0 0 0.22rem var(--brand-weak), var(--btn-shadow-hover) !important;
 }
 
-/* 主按钮：主题色实心 + 白字 */
+/* 主按钮：主题色实心 + 白字 *
 .btn-brand {
     background-color: var(--brand) !important;
     border-color: var(--brand) !important;
     color: #fff !important;
+}*/
+.btn-brand {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--brand);
+  --bs-btn-border-color: var(--brand);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: color-mix(in srgb, var(--brand) 92%, #000);
+  --bs-btn-hover-border-color: color-mix(in srgb, var(--brand) 92%, #000);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: color-mix(in srgb, var(--brand) 88%, #000);
+  --bs-btn-active-border-color: color-mix(in srgb, var(--brand) 88%, #000);
+  --bs-btn-focus-shadow-rgb: 124, 58, 237; /* 你品牌紫的近似 RGB，可微调 */
 }
 
 .btn-brand:hover {
     filter: brightness(1.06);
 }
 
-/* 主题色 outline 按钮：挖空 + 描边 */
-.btn-outline-brand {
+/* 主题色 outline 按钮：挖空 + 描边 .btn-outline-brand {
   color: var(--brand);
   border: 2px solid var(--brand);
   background: transparent;
+}*/
+
+.btn-outline-brand {
+  --bs-btn-color: var(--brand);
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: var(--brand);
+
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--brand);
+  --bs-btn-hover-border-color: var(--brand);
+
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: color-mix(in srgb, var(--brand) 90%, #000);
+  --bs-btn-active-border-color: color-mix(in srgb, var(--brand) 90%, #000);
+
+  --bs-btn-focus-shadow-rgb: 124, 58, 237;
+  border-width: 2px; /* 保持你想要的“描边更粗” */
 }
 
 .btn-outline-brand:hover,
@@ -473,4 +501,24 @@ body {
 .pill-split-dropdown .dropdown-item {
   border-radius: 0.65rem;
   padding: 0.55rem 0.8rem;
+}
+
+
+/*-------*/
+/* ✅ force pill look (wins over any .btn radius rules) */
+.post-form .pill-split-dropdown.btn-group {
+  border-radius: 9999px !important;
+  overflow: visible !important;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.14) !important;
+}
+
+.post-form .pill-split-dropdown .pill-main {
+  border-top-left-radius: 9999px !important;
+  border-bottom-left-radius: 9999px !important;
+}
+
+.post-form .pill-split-dropdown .pill-toggle {
+  border-top-right-radius: 9999px !important;
+  border-bottom-right-radius: 9999px !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.35) !important;
 }
